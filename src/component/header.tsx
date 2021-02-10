@@ -48,9 +48,9 @@ export default defineComponent ({
         }
 
         const columnCells = () => (props.columns.map((item) => 
-            <div class='header-cell' style={item.headerStyle()} onMousedown={(e) => mouseDownHandler(e, item)} onMouseup={() => false}>
+            <div class='header-cell' style={item.headerStyle()}>
                 {item.headerRender()}
-                <div v-show={item.canResize} class='resize-block'>
+                <div v-show={item.canResize} class='resize-block' onMousedown={(e) => mouseDownHandler(e, item)} onMouseup={() => false}>
                     <div class='resize-line' />
                 </div>
             </div>)

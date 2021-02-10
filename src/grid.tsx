@@ -1,6 +1,6 @@
 import { defineComponent, inject } from "vue";
 import GridService from "./grid.service";
-import {GridHeader, GridBottom, List, Group, HScroll} from './component'
+import {GridHeader, GridBottom, List, Group, HScroll, LockLine} from './component'
 
 import './grid.less'
 
@@ -19,7 +19,8 @@ export default defineComponent ({
         GridBottom,
         List,
         Group,
-        HScroll
+        HScroll,
+        LockLine
     },
 
     mounted() {
@@ -45,11 +46,32 @@ export default defineComponent ({
             }
         }
 
+        const toDragLockLine = () => gridSerivce.model.contentLeft = 0
+        const dragLockLineEnd = (x) => {
+            if (x < 82) {
+                x = 82
+            }
+
+            let columnWidth:number = 0
+            for (let i = 0; i < gridSerivce.model.columns.length; i++) {
+                const itemWidth = gridSerivce.model.columns[i].width + 1
+                if (columnWidth <= x && (columnWidth + itemWidth) > x) {
+                    gridSerivce.model.lockIndex = i
+                    return;
+                }
+
+                columnWidth += itemWidth
+            }
+
+            gridSerivce.model.lockIndex = gridSerivce.model.columns.length -1
+        }
+
         return () => <div id='gridPanel' class='grid-panel'>
                         {body()}
                         <grid-bottom />
                         <h-scroll view-width={gridSerivce.model.viewWidth} hpadding={gridSerivce.lockTableWidth.value} 
                                   contentWidth={gridSerivce.scrollTableWidth.value} onScrolling={(x) => gridSerivce.hscrollingHandler(x)}/>
+                        <lock-line onToDrag={() => toDragLockLine()} onDraged={(x) => dragLockLineEnd(x)}/>
                      </div>
     }
 })

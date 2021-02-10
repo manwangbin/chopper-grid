@@ -36,7 +36,7 @@ export default defineComponent({
 
         let isMouseDown:boolean = false
         let originY:number = 0
-        let originBar:number = 0
+
         const mouseDownHandler = (e) => {
             if(window.event){       //这是IE浏览器
                 e.cancelBubble=true
@@ -44,8 +44,7 @@ export default defineComponent({
                 e.stopPropagation()//阻止冒泡事件
             }
 
-            originY = e.clientY || e.touches[0].clientY;
-            originBar = barY.value
+            originY = e.clientY || e.touches[0].clientY
             isMouseDown = true
             document.onmousemove = (ev) => {
                 ev.preventDefault
@@ -55,9 +54,20 @@ export default defineComponent({
                 const eventY = ev.clientY;
                 if (eventY !== originY) {
                     const moveY = eventY - originY
-                    autoMoveTo = true
-                    moveTo = originBar + moveY
-                    autoMove()
+                    if (moveY != 0) {
+                        let newPosition = barY.value + moveY
+                        if (newPosition < 0) {
+                            newPosition = 0
+        
+                        } else if (newPosition > positionMaxY.value) {
+                            newPosition = positionMaxY.value
+        
+                        }
+
+                        barY.value = newPosition
+                        emit("scrolling", barY.value * toViewRator.value)
+                        originY = eventY
+                    }
                 }
             };
 

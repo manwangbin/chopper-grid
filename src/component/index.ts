@@ -4,6 +4,7 @@ import List from './list'
 import Group from './group'
 import VScroll from './vscroll'
 import HScroll from './hscroll'
+import LockLine from './lock_line'
 
 export {
     GridHeader,
@@ -11,5 +12,6 @@ export {
     List,
     Group,
     VScroll,
-    HScroll
+    HScroll,
+    LockLine
 }

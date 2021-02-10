@@ -5,6 +5,7 @@
 @border-color-h: #E0E0E0;
 @border-color-v: #E0E0E060;
 @front-color: #1890ff;
+@front-color-1: #1890ff60;
 
 .grid-panel {
     width: 100%;
@@ -43,6 +44,7 @@
         .vscroll {
             z-index: 99;
             width: 20px;
+            user-select: none;
     
             position: absolute;
             top: 31px;
@@ -60,6 +62,7 @@
                 background: #90909090;
                 border-radius: 5px;
                 cursor: pointer;
+                user-select: none;
     
                 &:hover {
                     transform: scale(1.1, 1);
@@ -93,6 +96,7 @@
                     font-size: 13px;
                     background: #F7F7F7;
                     border-right: solid 1px @border-color-v;
+                    user-select: none;
 
                     display: flex;
                     flex-direction: row;
@@ -144,6 +148,8 @@
                         .data-cell {
                             margin: 0px;
                             padding: 0px;
+                            user-select: none;
+                            
                             background: #FFFFFF;
                             border-right: solid 1px @border-color-v;
                             border-bottom: solid 1px @border-color-h;
@@ -157,6 +163,7 @@
     .hscroll {
         z-index: 99;
         height: 14px;
+        user-select: none;
 
         position: absolute;
         bottom: 0px;
@@ -174,6 +181,7 @@
             background: #90909090;
             border-radius: 5px;
             cursor: pointer;
+            user-select: none;
 
             &:hover {
                 transform: scale(1, 1.1);
@@ -185,5 +193,44 @@
         height: 30px;
         border-top: solid 1px @border-color-h;
         background: @background;
+        z-index: 98;
+    }
+
+    .lock_div {
+        cursor: ew-resize;
+        user-select: none;
+        
+        width: 19px;
+        height: 100%;
+        z-index: 95;
+        
+        position: absolute;
+        top: 31px;
+
+        &:hover, &:active {
+            top: 0px;
+            z-index: 97
+        }
+
+        .lock_line {
+            width: 1px;
+            height: 100%;
+            margin: 0px 9px;
+            background: @front-color-1;
+        }
+
+        .lock_block {
+            width: 9px;
+            height: 40px;
+
+            background: @front-color;
+            border-radius: 10px;
+            z-index: 98;
+
+            position: absolute;
+            left: 5px;
+            top: 100px;
+        }
+        
     }
 }
