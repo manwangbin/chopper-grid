@@ -37,6 +37,30 @@ export default defineComponent({
         let isMouseDown:boolean = false
         let originY:number = 0
 
+        //设置垂直滚动条的位置
+        const setY = (newPosition) => {
+            if (newPosition < 0) {
+                newPosition = 0
+
+            } else if (newPosition > positionMaxY.value) {
+                newPosition = positionMaxY.value
+
+            }
+
+            barY.value = newPosition
+            console.log();
+            
+            emit("scrolling", barY.value * toViewRator.value)
+        }
+
+        //设置滚动条的位置
+        const movePosition = (span) => {
+            const y = barY.value + span * toscrollRator.value
+            console.log('move to ', span, barY.value, y);
+            setY(y)
+        }
+        emit('load', movePosition)
+
         const mouseDownHandler = (e) => {
             if(window.event){       //这是IE浏览器
                 e.cancelBubble=true
@@ -56,16 +80,7 @@ export default defineComponent({
                     const moveY = eventY - originY
                     if (moveY != 0) {
                         let newPosition = barY.value + moveY
-                        if (newPosition < 0) {
-                            newPosition = 0
-        
-                        } else if (newPosition > positionMaxY.value) {
-                            newPosition = positionMaxY.value
-        
-                        }
-
-                        barY.value = newPosition
-                        emit("scrolling", barY.value * toViewRator.value)
+                        setY(newPosition)
                         originY = eventY
                     }
                 }

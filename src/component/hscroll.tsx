@@ -32,6 +32,13 @@ export default defineComponent({
         const showScroll = computed(() => props.contentWidth > scrollViewWidth.value)
         const barX:Ref<number> = ref(0)
 
+        //设置水平值
+        const setPosition = (x:number) => {
+            barX.value = x
+            emit("scrolling", barX.value * toViewRator.value)
+        }
+        emit('load', setPosition)
+
         let isMouseDown:boolean = false
         let originX:any = 0
         const mouseDownHandler = (e) => {
