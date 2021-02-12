@@ -48,15 +48,16 @@ export default defineComponent({
             }
 
             barY.value = newPosition
-            console.log();
-            
             emit("scrolling", barY.value * toViewRator.value)
         }
 
         //设置滚动条的位置
         const movePosition = (span) => {
+            if ((span < 0 && barY.value == 0) || (span > 0 && barY.value == positionMaxY.value)) {
+                return
+            }
+
             const y = barY.value + span * toscrollRator.value
-            console.log('move to ', span, barY.value, y);
             setY(y)
         }
         emit('load', movePosition)

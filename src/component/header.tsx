@@ -14,9 +14,9 @@ export default defineComponent ({
         let isMouseDown:boolean = false
         let originX:any = 0
         const mouseDownHandler = (e, item:Column) => {
-            if(window.event){       //这是IE浏览器
+            if(window.event) {       //这是IE浏览器
                 e.cancelBubble=true
-            }else if(e && e.stopPropagation){     //这是其他浏览器
+            } else if(e && e.stopPropagation) {     //这是其他浏览器
                 e.stopPropagation()//阻止冒泡事件
             }
             originX = e.clientX || e.touches[0].clientX;
