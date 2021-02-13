@@ -8,12 +8,7 @@ export default defineComponent ({
             required: true
         },
 
-        leftPadding: {
-            type: Number,
-            default: 0
-        },
-
-        leftScroll: {
+        startIndex: {
             type: Number,
             default: 0
         }
@@ -26,6 +21,7 @@ export default defineComponent ({
     setup(props, {emit}) {
         let isMouseDown:boolean = false
         let originX:any = 0
+        let dragIndex:number = -1
 
         //拖动改变列宽
         const resizeMouseDownHandler = (e, item:Column) => {
@@ -34,8 +30,10 @@ export default defineComponent ({
             } else if(e && e.stopPropagation) {     //这是其他浏览器
                 e.stopPropagation()//阻止冒泡事件
             }
+
             originX = e.clientX || e.touches[0].clientX;
             isMouseDown = true;
+            dragIndex = props.columns.indexOf(item)
 
             document.onmousemove = (ev) => {
                 ev.preventDefault()
@@ -54,7 +52,7 @@ export default defineComponent ({
                         newWidth = 60
                     }
                     originX = eventX
-                    emit('sizeChanged', {index: item.index, size: newWidth})
+                    emit('sizeChanged', {index: dragIndex + props.startIndex, size: newWidth})
                 }
             };
 
@@ -69,7 +67,6 @@ export default defineComponent ({
 
         //拖动改变列表顺序
         let reindexing:boolean = false
-        let reindexTimer:number = null
         let oldIndex:number = -1
         let leftList:Array<Array<number>> = new Array()
         let rightList:Array<Array<number>> = new Array()
@@ -77,7 +74,7 @@ export default defineComponent ({
         const dragColumn:Ref<Column> = ref(null)
         const dragColumnMoved: Ref<number> = ref(0)
         
-        const dragColumnLeft = computed(() => props.leftPadding + props.leftScroll + leftColumnWidth + dragColumnMoved.value)
+        const dragColumnLeft = computed(() => leftColumnWidth + dragColumnMoved.value)
         const initReidnex = (column: Array<Column>, item:Column) => {
             dragColumn.value = item
             dragColumnMoved.value = 0
@@ -171,7 +168,7 @@ export default defineComponent ({
                             reindexing = true
                             emit('indexChanged', {'oldIndex': oldIndex, 'newIndex': oldIndex - movedIndex})
                             originX = ev.clientX
-                            reindexTimer = setTimeout(() => reindexing = false, 500)
+                            setTimeout(() => reindexing = false, 1100)
                         }
                     } else if (dragColumnMoved.value > 0) {
                         const movedIndex = findRightIndex(dragColumnLeft.value + dragColumn.value.width)
@@ -179,7 +176,7 @@ export default defineComponent ({
                             reindexing = true
                             emit('indexChanged', {'oldIndex': oldIndex, 'newIndex': oldIndex + movedIndex})
                             originX = ev.clientX
-                            reindexTimer = setTimeout(() => reindexing = false, 500)
+                            setTimeout(() => reindexing = false, 1100)
                         }
                     }
                 }
@@ -217,7 +214,7 @@ export default defineComponent ({
         }
 
         return () => <div class="header-container">
-                        <transition-group name="reindex" class="header" tag="div">
+                        <transition-group name={dragColumn.value ? 'reindex' : ''} class="header" tag="div">
                             {columnCells()}
                         </transition-group>
                         {dragCell()}

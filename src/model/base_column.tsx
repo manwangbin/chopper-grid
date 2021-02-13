@@ -5,8 +5,6 @@ export class BaseColumn implements Column {
 
   tag: string
 
-  index: number
-
   key: string
 
   title: string
@@ -21,9 +19,8 @@ export class BaseColumn implements Column {
 
   contentAlign: Align = Align.CENTER
 
-  constructor(tag:string, index:number, key: string, title: string, width: number, canResize: boolean, canReindex: boolean = true) {
+  constructor(tag:string,  key: string, title: string, width: number, canResize: boolean, canReindex: boolean = true) {
     this.tag = tag
-    this.index = index
     this.key = key
     this.title = title
     this.width = width

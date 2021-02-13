@@ -1,4 +1,4 @@
-import { InjectionKey, provide, reactive, computed } from "vue";
+import { InjectionKey, provide, reactive, computed, Ref, ref } from "vue";
 import {Column } from "./model/column";
 import HeaderColumn from "./model/header_column";
 import TextColumn from "./model/text_column";
@@ -19,9 +19,11 @@ export default class GridService {
 
   static token: InjectionKey<GridService> = Symbol()
 
-  model:Model 
+  model:Model
 
-  resizeTimer: number
+  resizeTimer: any
+
+  reindxColumnFlag:Ref<boolean> = ref(false)
 
   constructor() {
       provide(GridService.token, this)
@@ -30,13 +32,13 @@ export default class GridService {
         rowNumber: 10000,
         columns: [
           new HeaderColumn(),
-          new TextColumn(1, 'c1', '列一', 200),
-          new TextColumn(2, 'c2', '列二', 300),
-          new TextColumn(3, 'c3', '列三', 400),
-          new TextColumn(4, 'c4', '列四', 400),
-          new TextColumn(5, 'c5', '列五', 400),
-          new TextColumn(6, 'c6', '列六', 400),
-          new TextColumn(6, 'c7', '列七', 400)
+          new TextColumn('c1', '列一', 200),
+          new TextColumn('c2', '列二', 300),
+          new TextColumn('c3', '列三', 400),
+          new TextColumn('c4', '列四', 400),
+          new TextColumn('c5', '列五', 400),
+          new TextColumn('c6', '列六', 400),
+          new TextColumn('c7', '列七', 400)
         ],
         lockIndex: 2,
         state: 1,
@@ -52,9 +54,9 @@ export default class GridService {
   //----------------------------计算comptued---------------------//
   
   //不水平滚动的列
-  lockColumns = computed(() => this.model.columns.filter(column => column.index < this.model.lockIndex))
+  lockColumns = computed(() => this.model.columns.filter((column,index) => index < this.model.lockIndex))
   //可水平滚动的列
-  scrollColumns = computed(() => this.model.columns.filter(column => column.index >= this.model.lockIndex))
+  scrollColumns = computed(() => this.model.columns.filter((column, index) => index >= this.model.lockIndex))
 
   //不水平滚动列的宽度
   lockTableWidth = computed(() => this.lockColumns.value.reduce((a, b) => a + (b.width + 1), 0))
@@ -86,12 +88,14 @@ export default class GridService {
    * @param newIndex 新的位置
    */
   columnIndexChanged(oldIndex: number, newIndex:number) {
-    const oldColumn = this.model.columns.splice(oldIndex, 1)[0]
+    this.reindxColumnFlag.value = true
+    const oldColumn:Column = this.model.columns.splice(oldIndex, 1)[0]
     if (newIndex < oldIndex) {
       this.model.columns.splice(newIndex, 0, oldColumn)
     } else {
       this.model.columns.splice(newIndex, 0, oldColumn)
     }
+    setTimeout(()=> this.reindxColumnFlag.value = false, 800)
   }
 
   /**

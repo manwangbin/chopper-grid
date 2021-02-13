@@ -3,8 +3,8 @@ import { Column, Row } from "./column";
 
 export default class TextColumn extends BaseColumn implements Column {
 
-  constructor(index:number, key: string, title: string, width: number) {
-    super('text', index, key, title, width, true)
+  constructor(key: string, title: string, width: number) {
+    super('text', key, title, width, true)
   }
 
   headerRender = () => {

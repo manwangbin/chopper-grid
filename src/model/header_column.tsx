@@ -5,7 +5,7 @@ import { Align, Column, Row } from "./column";
 export default class HeaderColumn extends BaseColumn implements Column {
 
     constructor() {
-        super('rowHeader', 0, '_selected', '', 60, false, false)
+        super('rowHeader', '_selected', '', 60, false, false)
     }
     
     headerRender = () => {return <input type='checkbox' />}

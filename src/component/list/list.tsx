@@ -37,14 +37,14 @@ export default defineComponent({
             listService.model.rowHeight = props.rowHeight
          })
 
-        const dataCells = (columns: Array<Column>, data:Row) => columns.map((cell,index) => 
-            <div key={'row_' + data.key + '_' + index} class="data-cell" style={cell.contentStyle(props.rowHeight)}>
+        const dataCells = (columns: Array<Column>, data:Row) => columns.map((cell) => 
+            <div key={'row_' + data.key + '_' + cell.key} class="data-cell" style={cell.contentStyle(props.rowHeight)}>
                 {cell.contentRender(data)}
             </div>
         )
 
         const rows = (columns: Array<Column>) => listService.model.rows.map(data => (
-            <transition-group name="reindex" class="row" tag="div">
+            <transition-group name={gridService.reindxColumnFlag.value ? 'reindex' : ''} class="row" tag="div" key={'row-' + data.key}>
                 {dataCells(columns, data)}
             </transition-group>
         ))
@@ -96,7 +96,8 @@ export default defineComponent({
                 </div>
 
                 <div class="grid-container right-container" style={'width:' + gridService.scrollTableWidth.value + 'px;left:' + gridService.scroollTableLeft.value + 'px'}>
-                    <grid-header columns={gridService.scrollColumns.value} 
+                    <grid-header columns={gridService.scrollColumns.value}
+                                 startIndex={gridService.lockColumns.value.length}
                                  onSizeChanged={(e) => onColumnSizeChanged(e)}
                                  onIndexChanged={(e) => onScrollColumnIndexChanged(e)}/>
                     <div class='body'>

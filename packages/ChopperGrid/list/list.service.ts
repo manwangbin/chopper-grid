@@ -23,7 +23,7 @@ export default class ListService {
 
     ROW_NUMBER:number = 60
 
-    sizeTimer:number = null
+    sizeTimer:any = null
 
     model: ListModel
 
