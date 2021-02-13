@@ -35,6 +35,7 @@ interface Column {
     title: string
     width: number
     canResize: boolean
+    canReindex: boolean
     headerAlign: Align
     headerStyle: HeaderStyleRender
     headerRender: HeaderRender

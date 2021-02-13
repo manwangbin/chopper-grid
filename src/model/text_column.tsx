@@ -12,6 +12,6 @@ export default class TextColumn extends BaseColumn implements Column {
   }
 
   contentRender = (data:Row) => {
-    return <span>{data.dataIndex + 1}</span>
+    return <span>{this.title} - {data.dataIndex + 1}</span>
   }
 }

@@ -76,55 +76,68 @@
         
             display: flex;
             flex-direction: column;
-        
-            .header {
+
+            .header-container {
+                position: relative;
                 height: @gridHeaderHeight;
                 background: #FDFDFE;
                 border-bottom: solid 1px @border-color-h;
                 z-index: 1;
 
-                display: flex;
-                flex-direction: row;
-                .selected-all {
-                    width: @rowHeaderWidth;
-                    text-align: center;
-                }
-                
-                .header-cell {
-                    text-align: center;
-                    line-height: @gridHeaderHeight;
-                    font-size: 13px;
-                    background: #F7F7F7;
-                    border-right: solid 1px @border-color-v;
-                    user-select: none;
-
+                .header {
                     display: flex;
                     flex-direction: row;
-                    justify-content: space-around;
-                    align-items: center;
-                    position: relative;
-                    .resize-block {
-                        cursor: ew-resize;
-                        width: 16px;
-                        height: 30px;
+                    .selected-all {
+                        width: @rowHeaderWidth;
+                        text-align: center;
+                    }
+                    
+                    .header-cell {
+                        text-align: center;
+                        line-height: @gridHeaderHeight;
+                        font-size: 13px;
+                        background: #F7F7F7;
+                        border-right: solid 1px @border-color-v;
+                        user-select: none;
+    
                         display: flex;
                         flex-direction: row;
-                        justify-content: center;
+                        justify-content: space-around;
                         align-items: center;
-
-                        position: absolute;
-                        right: -8px;
-                        z-index: 94;
-                        
-                        .resize-line {
-                            width: 3px;
-                            height: 28px;
-                            border-radius: 4px;
-                            &:hover, &:active {
-                                background-color: @front-color;
+                        position: relative;
+                        .resize-block {
+                            cursor: ew-resize;
+                            width: 16px;
+                            height: 30px;
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: center;
+                            align-items: center;
+    
+                            position: absolute;
+                            right: -8px;
+                            z-index: 94;
+                            
+                            .resize-line {
+                                width: 3px;
+                                height: 28px;
+                                border-radius: 4px;
+                                &:hover, &:active {
+                                    background-color: @front-color;
+                                }
                             }
                         }
                     }
+                }
+
+                .drag-reindex {
+                    font-size: 13px;
+                    position: absolute;
+                    top: 0px;
+                    height: @gridHeaderHeight;
+                    background: #ADADADA0;
+                    border: solid 1px @border-color-h;
+                    z-index: 96;
                 }
             }
         
@@ -139,6 +152,7 @@
                     .row {
                         font-size: 14px;
                         display: flex;
+                        background: #FFFFFF;
                         flex-direction: row;
                         .row-header {
                             width: @rowHeaderWidth;
@@ -146,16 +160,17 @@
                         }
                         
                         .data-cell {
-                            margin: 0px;
-                            padding: 0px;
                             user-select: none;
                             
-                            background: #FFFFFF;
                             border-right: solid 1px @border-color-v;
                             border-bottom: solid 1px @border-color-h;
                         }
-                    }    
+                    }  
                 }
+            }
+        
+            .reindex-move {
+                transition: transform 0.4s ease;
             }
         }
     }

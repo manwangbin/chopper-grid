@@ -80,6 +80,21 @@ export default class GridService {
   }
 
   /**
+   * 改变列的顺序
+   * 
+   * @param oldIndex 原来列的index
+   * @param newIndex 新的位置
+   */
+  columnIndexChanged(oldIndex: number, newIndex:number) {
+    const oldColumn = this.model.columns.splice(oldIndex, 1)[0]
+    if (newIndex < oldIndex) {
+      this.model.columns.splice(newIndex, 0, oldColumn)
+    } else {
+      this.model.columns.splice(newIndex, 0, oldColumn)
+    }
+  }
+
+  /**
    * 垂直滚动条滚动事件
    * 
    * @param x 内容区域top值

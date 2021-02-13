@@ -15,17 +15,20 @@ export class BaseColumn implements Column {
 
   canResize: boolean
 
+  canReindex: boolean
+
   headerAlign: Align = Align.CENTER
 
   contentAlign: Align = Align.CENTER
 
-  constructor(tag:string, index:number, key: string, title: string, width: number, canResize: boolean) {
+  constructor(tag:string, index:number, key: string, title: string, width: number, canResize: boolean, canReindex: boolean = true) {
     this.tag = tag
     this.index = index
     this.key = key
     this.title = title
     this.width = width
     this.canResize = canResize
+    this.canReindex = canReindex
   }
 
   headerStyle = () => {

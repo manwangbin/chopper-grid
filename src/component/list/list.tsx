@@ -1,4 +1,5 @@
-import { defineComponent, inject, Ref, ref, watchEffect } from "vue"
+import { defineComponent, inject, Ref, ref, watchEffect, TransitionGroup } from "vue"
+
 import {GridHeader} from '../index'
 import VScroll from '../vscroll'
 
@@ -21,6 +22,7 @@ export default defineComponent({
     },
 
     components: {
+        TransitionGroup,
         GridHeader,
         VScroll
     },
@@ -42,12 +44,17 @@ export default defineComponent({
         )
 
         const rows = (columns: Array<Column>) => listService.model.rows.map(data => (
-            <div class='row'>
+            <transition-group name="reindex" class="row" tag="div">
                 {dataCells(columns, data)}
-            </div>)
-        )
+            </transition-group>
+        ))
 
         const mouseWheelHandler = (e) => {
+            if(window.event) {       //这是IE浏览器
+                e.cancelBubble=true
+            } else if(e && e.stopPropagation) {     //这是其他浏览器
+                e.stopPropagation()//阻止冒泡事件
+            }
             moveVPosition.value(e.deltaY * listService.whellSpan.value)
         }
         
@@ -63,13 +70,24 @@ export default defineComponent({
             gridService.resizeColumn(e.index, e.size)
         }
 
+        const onLockColumnIndexChanged = (e) => {
+            gridService.columnIndexChanged(e.oldIndex, e.newIndex)
+        }
+
+        const onScrollColumnIndexChanged = (e) => {
+            const lockColumnLength = gridService.lockColumns.value.length
+            gridService.columnIndexChanged(e.oldIndex + lockColumnLength, e.newIndex + lockColumnLength)
+        }
+
         return () => (
             <div id="chooper-grid" 
                 class='chooper-grid' 
                 onMouseenter={(e) => onMouseEnterHandler(e)} 
                 onMouseleave={(e) => onMouseOutHandler(e)}>
                 <div class={['grid-container', 'left-container', gridService.model.contentLeft !== 0 ? 'left-shadow': '']} style={'width:' + gridService.lockTableWidth.value + 'px'}>
-                    <grid-header columns={gridService.lockColumns.value} onSizeChanged={(e) => onColumnSizeChanged(e)}/>
+                    <grid-header columns={gridService.lockColumns.value} 
+                                 onSizeChanged={(e) => onColumnSizeChanged(e)}
+                                 onIndexChanged={(e) => onLockColumnIndexChanged(e)} />
                     <div class='body' >
                         <div class='row-content' style={'transform: translateY(' + listService.panelTop.value + 'px)'}>
                             {rows(gridService.lockColumns.value)}
@@ -78,7 +96,9 @@ export default defineComponent({
                 </div>
 
                 <div class="grid-container right-container" style={'width:' + gridService.scrollTableWidth.value + 'px;left:' + gridService.scroollTableLeft.value + 'px'}>
-                    <grid-header columns={gridService.scrollColumns.value} onSizeChanged={(e) => onColumnSizeChanged(e)}/>
+                    <grid-header columns={gridService.scrollColumns.value} 
+                                 onSizeChanged={(e) => onColumnSizeChanged(e)}
+                                 onIndexChanged={(e) => onScrollColumnIndexChanged(e)}/>
                     <div class='body'>
                         <div class='row-content' style={'transform: translateY(' + listService.panelTop.value + 'px)'}>
                             {rows(gridService.scrollColumns.value)}

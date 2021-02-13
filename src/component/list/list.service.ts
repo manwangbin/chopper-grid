@@ -43,7 +43,7 @@ export default class ListService {
     //行高
     rowElementHeight = computed(() => this.model.rowHeight + 1)
     //鼠标滚动的行距
-    whellSpan = computed(() => this.rowElementHeight.value / 5)
+    whellSpan = computed(() => 1)
     //显示窗口高度
     viewElementHeight = computed(() => this.model.viewHeight - GRID_HEADER_HEIGHT)
     //整个内容区域实际高度
