@@ -1,14 +1,14 @@
 import { BaseColumn } from "./base_column";
 import { Column, Row } from "./column";
 
-export default class TextColumn extends BaseColumn implements Column {
+export default class NormalColumn extends BaseColumn implements Column {
 
   constructor(key: string, title: string, width: number) {
-    super('text', key, title, width, true)
+    super(key, title, width, true)
   }
 
   headerRender = () => {
-    return <span>{this.title}</span>
+    return <>{this.title}</>
   }
 
   contentRender = (data:Row) => {

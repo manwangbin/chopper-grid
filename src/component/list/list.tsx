@@ -37,6 +37,14 @@ export default defineComponent({
             listService.model.rowHeight = props.rowHeight
          })
 
+        const rowEnteryHandler = (data:Row) => {
+            data.actived = true
+        }
+
+        const rowLeaveHander = (data:Row) => {
+            data.actived = false
+        }
+
         const dataCells = (columns: Array<Column>, data:Row) => columns.map((cell) => 
             <div key={'row_' + data.key + '_' + cell.key} class="data-cell" style={cell.contentStyle(props.rowHeight)}>
                 {cell.contentRender(data)}
@@ -44,7 +52,12 @@ export default defineComponent({
         )
 
         const rows = (columns: Array<Column>) => listService.model.rows.map(data => (
-            <transition-group name={gridService.reindxColumnFlag.value ? 'reindex' : ''} class="row" tag="div" key={'row-' + data.key}>
+            <transition-group name={gridService.reindxColumnFlag.value ? 'reindex' : ''} 
+                class={['row', data.actived ? 'row-active' : (data.dataIndex % 2 === 1 ? 'row-odd' : '')]} 
+                tag="div" 
+                key={'row-' + data.key}
+                onMouseenter={()=>rowEnteryHandler(data)}
+                onMouseleave={() => rowLeaveHander(data)}>
                 {dataCells(columns, data)}
             </transition-group>
         ))

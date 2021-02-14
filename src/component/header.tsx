@@ -22,7 +22,6 @@ export default defineComponent ({
         let isMouseDown:boolean = false
         let originX:any = 0
         let dragIndex:number = -1
-
         //拖动改变列宽
         const resizeMouseDownHandler = (e, item:Column) => {
             if(window.event) {       //这是IE浏览器
@@ -198,7 +197,9 @@ export default defineComponent ({
         const columnCells = () => (props.columns.map((item) => 
             <div class='header-cell' style={item.headerStyle()} key={item.key} 
                  onMousedown={(e) => reindexMouseDownHandler(e, item)} onMouseup={() => false}>
+                {item.iconRender()}
                 {item.headerRender()}
+
                 <div v-show={item.canResize} class='resize-block' onMousedown={(e) => resizeMouseDownHandler(e, item)} onMouseup={() => false}>
                     <div class='resize-line' />
                 </div>

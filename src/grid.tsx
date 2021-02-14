@@ -1,8 +1,9 @@
-import { defineComponent, inject, ref } from "vue";
+import { defineComponent, inject, PropType, ref } from "vue";
 import GridService from "./grid.service";
 import {GridHeader, GridBottom, List, Group, HScroll, LockLine} from './component'
 
 import './grid.less'
+import { Column } from "./model/column";
 
 let gridSerivce:GridService
 export default defineComponent ({
@@ -11,6 +12,11 @@ export default defineComponent ({
             type: Number,
             required: false,
             default: 34
+        },
+
+        columns: {
+            type: Array as PropType<Array<Column>>,
+            required: true
         }
     },
 
@@ -37,7 +43,7 @@ export default defineComponent ({
     },
 
     setup(props) {
-        gridSerivce = new GridService()
+        gridSerivce = new GridService(props.columns)
         const setHPosition = ref((position) => {})
 
         const body = () => {

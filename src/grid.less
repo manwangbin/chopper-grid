@@ -122,10 +122,17 @@
                                 width: 3px;
                                 height: 28px;
                                 border-radius: 4px;
-                                &:hover, &:active {
+                            }
+
+                            &:active, &:hover {
+                                .resize-line {
                                     background-color: @front-color;
                                 }
                             }
+                        }
+
+                        &:active, &:hover {
+                            background: #E7E7E7;
                         }
                     }
                 }
@@ -165,7 +172,15 @@
                             border-right: solid 1px @border-color-v;
                             border-bottom: solid 1px @border-color-h;
                         }
-                    }  
+                    }
+
+                    .row-odd {
+                        background: #FAFAFD;
+                    }
+
+                    .row-active {
+                        background: #F0F0FF90;
+                    }
                 }
             }
         

@@ -1,15 +1,18 @@
-import { GRID_HEADER_HEIGHT } from "../const";
-import { Align, Column, Row } from "./column";
+import { Align, Sort, Column, Row } from "./column";
 
 export class BaseColumn implements Column {
 
-  tag: string
-
   key: string
+
+  icon: string
 
   title: string
 
   width: number
+
+  canSort: boolean = true
+
+  sort: Sort
 
   canResize: boolean
 
@@ -19,8 +22,7 @@ export class BaseColumn implements Column {
 
   contentAlign: Align = Align.CENTER
 
-  constructor(tag:string,  key: string, title: string, width: number, canResize: boolean, canReindex: boolean = true) {
-    this.tag = tag
+  constructor(key: string, title: string, width: number, canResize: boolean, canReindex: boolean = true) {
     this.key = key
     this.title = title
     this.width = width
@@ -32,8 +34,10 @@ export class BaseColumn implements Column {
     return 'width:' + this.width + 'px;height:30px;line-height:30px;text-align:' + this.headerAlign;
   }
 
+  iconRender = () => {return null}
+
   headerRender = () => {
-    return <></>
+    return <>{this.title}</>
   }
 
   contentStyle = (rowHeight: number)=> {

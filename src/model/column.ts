@@ -4,12 +4,24 @@ enum Align {
     RIGHT = "right"
 }
 
+enum Sort {
+    ASC = "asc",
+    DESC = "desc",
+    NO = ""
+}
+
 interface Row {
     key: number,
     dataIndex: number,
     selected: boolean,
+    actived: boolean,
+    showChecked: boolean,
     hasData: boolean,
     data?: any
+}
+
+interface iconRender {
+    (): object;
 }
 
 interface HeaderRender {
@@ -30,13 +42,16 @@ interface DataStyleRender {
 
 interface Column {
     key: string
-    tag: string
+    icon: string
     title: string
     width: number
+    canSort: boolean
+    sort: Sort
     canResize: boolean
     canReindex: boolean
     headerAlign: Align
     headerStyle: HeaderStyleRender
+    iconRender: iconRender
     headerRender: HeaderRender
     contentAlign: Align
     contentStyle: DataStyleRender
@@ -45,7 +60,9 @@ interface Column {
 
 export {
     Align,
+    Sort,
     Row,
+    iconRender,
     HeaderRender,
     ContentRender,
     Column

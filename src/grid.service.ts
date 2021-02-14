@@ -25,20 +25,14 @@ export default class GridService {
 
   reindxColumnFlag:Ref<boolean> = ref(false)
 
-  constructor() {
+  constructor(columns: Array<Column>) {
       provide(GridService.token, this)
       this.model = reactive({
         rowHeight: 40,
         rowNumber: 10000,
         columns: [
           new HeaderColumn(),
-          new TextColumn('c1', '列一', 200),
-          new TextColumn('c2', '列二', 300),
-          new TextColumn('c3', '列三', 400),
-          new TextColumn('c4', '列四', 400),
-          new TextColumn('c5', '列五', 400),
-          new TextColumn('c6', '列六', 400),
-          new TextColumn('c7', '列七', 400)
+          ...columns
         ],
         lockIndex: 2,
         state: 1,
@@ -125,13 +119,11 @@ export default class GridService {
           const newWidth = parseInt(width)
           if (newWidth !== this.model.viewWidth) {
               this.model.viewWidth = newWidth
-              console.log('set view width', this.model.viewWidth);
           }
 
           const newHeight = parseInt(height)
           if (newHeight !== this.model.viewWidth) {
               this.model.viewHeight = newHeight
-              console.log('set view height', this.model.viewHeight);
           }
       }, 75)
     }
