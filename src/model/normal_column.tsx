@@ -1,5 +1,6 @@
-import { BaseColumn } from "./base_column";
-import { Column, Row } from "./column";
+import { BaseColumn } from "./base_column"
+import { Column, Row } from './column'
+import { TeamOutlined } from '@ant-design/icons-vue'
 
 export default class NormalColumn extends BaseColumn implements Column {
 
@@ -9,6 +10,10 @@ export default class NormalColumn extends BaseColumn implements Column {
 
   headerRender = () => {
     return <>{this.title}</>
+  }
+
+  iconRender = () => {
+    return <TeamOutlined style='margin: 0px 10px'/>
   }
 
   contentRender = (data:Row) => {

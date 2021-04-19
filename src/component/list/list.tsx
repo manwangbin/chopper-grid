@@ -63,16 +63,12 @@ export default defineComponent({
         ))
 
         const mouseWheelHandler = (e) => {
-            if(window.event) {       //这是IE浏览器
-                e.cancelBubble=true
-            } else if(e && e.stopPropagation) {     //这是其他浏览器
-                e.stopPropagation()//阻止冒泡事件
-            }
+            e.preventDefault(); 
             moveVPosition.value(e.deltaY * listService.whellSpan.value)
         }
         
         const onMouseEnterHandler = (e) => {
-            window.addEventListener('mousewheel', mouseWheelHandler)
+            window.addEventListener('mousewheel', mouseWheelHandler, {passive: false})
         }
 
         const onMouseOutHandler = (e) => {

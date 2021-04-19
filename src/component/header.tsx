@@ -195,7 +195,9 @@ export default defineComponent ({
         }
 
         const columnCells = () => (props.columns.map((item) => 
-            <div class='header-cell' style={item.headerStyle()} key={item.key} 
+            <div class='header-cell' 
+                 style={item.headerStyle()} 
+                 key={item.key} 
                  onMousedown={(e) => reindexMouseDownHandler(e, item)} onMouseup={() => false}>
                 {item.iconRender()}
                 {item.headerRender()}

@@ -1,8 +1,8 @@
 
 import {defineComponent} from 'vue'
 import { ChopperGrid } from '../src'
-import { Column } from '../src/model/column'
-import TextColumn from '../src/model/text_column'
+import { Align, Column } from '../src/model/column'
+import NormalColumn from '../src/model/normal_column'
 
 export default defineComponent ({
   components: {
@@ -10,14 +10,17 @@ export default defineComponent ({
   },
 
   setup () {
+    const column1:NormalColumn = new NormalColumn('c1', '列一', 200)
+    column1.headerAlign = Align.LEFT
+    column1.contentAlign = Align.LEFT
     const columns:Array<Column> = [
-      new TextColumn('c1', '列一', 200),
-      new TextColumn('c2', '列二', 300),
-      new TextColumn('c3', '列三', 400),
-      new TextColumn('c4', '列四', 400),
-      new TextColumn('c5', '列五', 400),
-      new TextColumn('c6', '列六', 400),
-      new TextColumn('c7', '列七', 400)
+      column1,
+      new NormalColumn('c2', '列二', 300),
+      new NormalColumn('c3', '列三', 400),
+      new NormalColumn('c4', '列四', 400),
+      new NormalColumn('c5', '列五', 400),
+      new NormalColumn('c6', '列六', 400),
+      new NormalColumn('c7', '列七', 400)
     ]
     return () => <chopper-grid columns={columns} />
   }

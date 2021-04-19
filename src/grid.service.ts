@@ -60,7 +60,6 @@ export default class GridService {
   scroollTableLeft = computed(() => this.lockTableWidth.value + this.model.contentLeft)
 
   //--------------------------方法区---------------------------//
-
   changeToListState() {
     this.model.state = 1
   }
